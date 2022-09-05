@@ -13,7 +13,7 @@ class main(tkinter.Tk):
         tkinter.Tk.__init__(self)
         self.x = can_width/2  # Center Point x
         self.y = can_height/4  # Center Point
-        self.length = 50  # Stick Length
+        self.length = 100  # Stick Length
         self.creating_all_function_trigger()
 
     # Creating Trigger For Other Functions
@@ -25,7 +25,7 @@ class main(tkinter.Tk):
 
     # Creating Background
     def creating_background_(self):
-        self.image = tkinter.PhotoImage(file='clock.gif')
+        self.image = tkinter.PhotoImage(file='clock_face.png', height=300, width=300, )
         self.canvas.create_image(can_width/2, can_height/4, image=self.image)
         return
 
@@ -40,7 +40,7 @@ class main(tkinter.Tk):
         self.sticks = []
         for i in range(3):
             store = self.canvas.create_line(
-                self.x, self.y, self.x+self.length, self.y+self.length, width=2, fill='red')
+                self.x, self.y, self.x+self.length, self.y+self.length, width=4, fill='white')
             self.sticks.append(store)
         return
 
