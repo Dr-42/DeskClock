@@ -1,16 +1,18 @@
 import tkinter
-
+import ctypes
 import math  # Required For Coordinates Calculation
 import time  # Required For Time Handling
 
-can_width = 1980/1.25
-can_height = 1080/1.25
+user32 = ctypes.windll.user32
+
+can_width = user32.GetSystemMetrics(0)
+can_height = user32.GetSystemMetrics(1)
 
 class main(tkinter.Tk):
     def __init__(self):
         tkinter.Tk.__init__(self)
         self.x = can_width/2  # Center Point x
-        self.y = can_height/2  # Center Point
+        self.y = can_height/4  # Center Point
         self.length = 50  # Stick Length
         self.creating_all_function_trigger()
 
@@ -24,7 +26,7 @@ class main(tkinter.Tk):
     # Creating Background
     def creating_background_(self):
         self.image = tkinter.PhotoImage(file='clock.gif')
-        self.canvas.create_image(can_width/2, can_height/2, image=self.image)
+        self.canvas.create_image(can_width/2, can_height/4, image=self.image)
         return
 
     # creating Canvas
