@@ -3,8 +3,8 @@ import tkinter
 import math  # Required For Coordinates Calculation
 import time  # Required For Time Handling
 
-can_width = 150
-can_height = 150
+can_width = 1980/1.25
+can_height = 1080/1.25
 
 class main(tkinter.Tk):
     def __init__(self):
@@ -29,8 +29,8 @@ class main(tkinter.Tk):
 
     # creating Canvas
     def create_canvas_for_shapes(self):
-        self.canvas = tkinter.Canvas(self, bg='gray99', width=can_width, height=can_height)
-        self.canvas.pack(expand='yes', fill='both')
+        self.canvas = tkinter.Canvas(self, bg='gray99', width=can_width, height=can_height, bd=0, highlightthickness=0, relief='ridge')
+        self.canvas.pack(expand='yes')
         return
 
     # Creating Moving Sticks
