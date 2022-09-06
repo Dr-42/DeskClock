@@ -2,11 +2,19 @@ import tkinter
 import ctypes
 import math  # Required For Coordinates Calculation
 import time  # Required For Time Handling
-
+import threading
+from playsound import playsound
 user32 = ctypes.windll.user32
 
 can_width = user32.GetSystemMetrics(0)
 can_height = user32.GetSystemMetrics(1)
+
+sound_bool=False
+def sound():
+    global sound_bool
+    if not sound_bool:
+        threading.Thread(target=playsound, args=('Gong.wav', ), daemon=True).start()
+    sound_bool = True
 
 class main(tkinter.Tk):
     def __init__(self):
@@ -60,10 +68,15 @@ class main(tkinter.Tk):
 
     # Function Need Regular Update
     def update_class(self):
+        global sound_bool
         now = time.localtime()
         t = time.strptime(str(now.tm_hour), "%H")
         hour = int(time.strftime("%I", t))*5
         now = (hour, now.tm_min, now.tm_sec)
+        if now[1]==0 and now[2]==0:
+            sound()
+        if now[1]==0 and now[2]==1:
+            sound_bool = False
         # Changing Stick Coordinates
         for n, i in enumerate(now):
             x, y = self.canvas.coords(self.sticks[n])[0:2]
