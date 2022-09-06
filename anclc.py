@@ -13,7 +13,12 @@ class main(tkinter.Tk):
         tkinter.Tk.__init__(self)
         self.x = can_width/2  # Center Point x
         self.y = can_height/4  # Center Point
-        self.length = 100  # Stick Length
+        self.minute_length = 100  # Stick Length
+        self.hour_length = 60
+        self.second_length =  110
+        self.minute_width = 4
+        self.hour_width = 8
+        self.second_width = 2
         self.creating_all_function_trigger()
 
     # Creating Trigger For Other Functions
@@ -25,7 +30,7 @@ class main(tkinter.Tk):
 
     # Creating Background
     def creating_background_(self):
-        self.image = tkinter.PhotoImage(file='clock_face.png', height=300, width=300, )
+        self.image = tkinter.PhotoImage(file='clock_face.png')
         self.canvas.create_image(can_width/2, can_height/4, image=self.image)
         return
 
@@ -38,10 +43,19 @@ class main(tkinter.Tk):
     # Creating Moving Sticks
     def creating_sticks(self):
         self.sticks = []
-        for i in range(3):
-            store = self.canvas.create_line(
-                self.x, self.y, self.x+self.length, self.y+self.length, width=4, fill='white')
-            self.sticks.append(store)
+
+        store = self.canvas.create_line(
+            self.x, self.y, self.x+self.hour_length, self.y+self.hour_length, width=self.hour_width, fill='white')
+        self.sticks.append(store)
+        
+        store = self.canvas.create_line(
+            self.x, self.y, self.x+self.minute_length, self.y+self.minute_length, width=self.minute_width, fill='white')
+        self.sticks.append(store)
+
+        store = self.canvas.create_line(
+            self.x, self.y, self.x+self.second_length, self.y+self.second_length, width=self.second_width, fill='white')
+        self.sticks.append(store)
+
         return
 
     # Function Need Regular Update
@@ -54,8 +68,20 @@ class main(tkinter.Tk):
         for n, i in enumerate(now):
             x, y = self.canvas.coords(self.sticks[n])[0:2]
             cr = [x, y]
-            cr.append(self.length*math.cos(math.radians(i*6)-math.radians(90))+self.x)
-            cr.append(self.length*math.sin(math.radians(i*6)-math.radians(90))+self.y)
+            length = 0
+            if n == 0:
+                length = self.hour_length
+            elif n == 1:
+                length = self.minute_length
+
+            else:
+                length = self.second_length
+            if n == 0:
+                cr.append(length*math.cos(math.radians(i*6 + now[1]/2)-math.radians(90))+self.x)
+                cr.append(length*math.sin(math.radians(i*6 + now[1]/2)-math.radians(90))+self.y)
+            else:
+                cr.append(length*math.cos(math.radians(i*6)-math.radians(90))+self.x)
+                cr.append(length*math.sin(math.radians(i*6)-math.radians(90))+self.y)
             self.canvas.coords(self.sticks[n], tuple(cr))
         return
 
