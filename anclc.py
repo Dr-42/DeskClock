@@ -3,17 +3,23 @@ import ctypes
 import math  # Required For Coordinates Calculation
 import time  # Required For Time Handling
 import threading
-from playsound import playsound
+import pygame as pg
 user32 = ctypes.windll.user32
 
 can_width = user32.GetSystemMetrics(0)
 can_height = user32.GetSystemMetrics(1)
 
 sound_bool=False
+
+def plsound(sound):
+    sound = pg.mixer.Sound(sound)
+    sound.set_volume(0.5)   # Now plays at 90% of full volume.
+    sound.play()     
+
 def sound():
     global sound_bool
     if not sound_bool:
-        threading.Thread(target=playsound, args=('Gong.wav', ), daemon=True).start()
+        threading.Thread(target=plsound, args=('Gong.wav', ), daemon=True).start()
     sound_bool = True
 
 class main(tkinter.Tk):
@@ -21,9 +27,9 @@ class main(tkinter.Tk):
         tkinter.Tk.__init__(self)
         self.x = can_width/2  # Center Point x
         self.y = can_height/4  # Center Point
-        self.minute_length = 100  # Stick Length
-        self.hour_length = 60
-        self.second_length =  110
+        self.minute_length = 120  # Stick Length
+        self.hour_length = 70
+        self.second_length =  170
         self.minute_width = 4
         self.hour_width = 8
         self.second_width = 2
@@ -106,6 +112,7 @@ def close(event):
 # Main Function Trigger
 if __name__ == '__main__':
     root = main()
+    pg.mixer.init()
     root.wm_attributes("-transparentcolor", "gray99")
     root.overrideredirect(True)
     global running
